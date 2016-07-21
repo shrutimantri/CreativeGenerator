@@ -64,6 +64,9 @@ MEME.MemeEditorView = Backbone.View.extend({
     this.$('#headline').val(d.headlineText);
     //this.$('#credit').val(d.creditText);
     this.$('#watermark').val(d.watermarkSrc);
+    this.$('#uspText1').val(d.uspText1);
+    this.$('#uspText2').val(d.uspText2);
+    this.$('#uspText3').val(d.uspText3);
     this.$('#image-scale').val(d.imageScale);
     this.$('#font-size').val(d.fontSize);
     this.$('#font-family').val(d.fontFamily);
@@ -74,6 +77,9 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   events: {
     'input #headline': 'onHeadline',
+    'input #uspText1': 'onUspText1',
+    'input #uspText2': 'onUspText2',
+    'input #uspText3': 'onUspText3',
     'input #credit': 'onCredit',
     'input #image-scale': 'onScale',
     'change #font-size': 'onFontSize',
@@ -93,6 +99,18 @@ MEME.MemeEditorView = Backbone.View.extend({
 
   onHeadline: function() {
     this.model.set('headlineText', this.$('#headline').val());
+  },
+
+  onUspText1: function() {
+    this.model.set('uspText1', this.$('#uspText1').val());
+  },
+
+  onUspText2: function() {
+    this.model.set('uspText2', this.$('#uspText2').val());
+  },
+
+  onUspText3: function() {
+    this.model.set('uspText3', this.$('#uspText3').val());
   },
 
   onTextAlign: function() {

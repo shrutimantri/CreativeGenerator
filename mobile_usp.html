@@ -20,8 +20,14 @@
 	<h2><label for="image-scale">Resize image</label></h2>
 	<input id="image-scale" type="range" max="4" min=".01" step=".01" value="1">
 	
-	<h2><label for="headline">Headline</label></h2>
+	<h2><label for="headline">Title</label></h2>
 	<textarea id="headline" name="headline" type="text" value=""></textarea>
+	<h2><label for="headline">USP Text 1</label></h2>
+	<input id="uspText1" name="uspText1" type="text" value=""></input>
+	<h2><label for="headline">USP Text 2</label></h2>
+	<input id="uspText2" name="uspText2" type="text" value=""></input>
+	<h2><label for="headline">USP Text 3</label></h2>
+	<input id="uspText3" name="uspText3" type="text" value=""></input>
 	
 	<select class="text-align" id="text-align">
 	  <option value="" disabled>Select alignment</option>
@@ -43,9 +49,6 @@
 	<select class="watermark" id="watermark">
 	  <option value="" disabled>Select a watermark</option>
 	</select>
-	
-	<h2><label for="credit">Credit</label></h2>
-	<input id="credit" name="credit" type="text" value="">
 	
 	<div class="m-editor__overlay" id="overlay">
 	  <h2>Overlay Color</h2>
@@ -73,6 +76,6 @@
 <script src="js/views/meme-canvas.js"></script>
 <script src="js/views/meme-editor.js"></script>
 <script src="js/helpers/font-monitor.js"></script>
-    <script src="js/settings.js"></script>
+    <script src="js/mobile_usp.js"></script>
   </body>
 </html>
