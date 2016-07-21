@@ -1,7 +1,5 @@
 var MEME_SETTINGS = {
-  creditText: 'Source:', // Default "credits" text.
-  creditSize: 12, // Font size for credit text.
-  downloadName: 'share', // The name of the downloaded image file (will have a ".png" extension added).
+  downloadName: 'bannerPMU', // The name of the downloaded image file (will have a ".png" extension added).
   fontColor: 'white', // Universal font color.
 
   // Universal font family for texts:
@@ -20,8 +18,8 @@ var MEME_SETTINGS = {
     {text: 'Large text', value: 36}
   ],
 
-  headlineText: 'Write your own headline', // Default headline text.
-  height: 378, // Canvas rendering height.
+  headlineText: 'Write your own title', // Default headline text.
+  height: 280, // Canvas rendering height.
   imageScale: 1, // Background image scale.
   imageSrc: '', // Default background image path. MUST reside on host domain, or use base64 data.
   overlayAlpha: 0.5, // Opacity of image overlay.
@@ -39,26 +37,15 @@ var MEME_SETTINGS = {
     {text: 'Align left', value: 'left'}, 
     {text: 'Align center', value: 'center'},
     {text: 'Align right', value: 'right'},
-    {text: 'Align bottom left', value: 'b-right'},
+    {text: 'Align bottom left', value: 'b-left'},
     {text: 'Align bottom right', value: 'b-right'}
   ],
 
   textShadow: false, // Text shadow toggle.
   textShadowEdit: true, // Toggles text shadow control within the editor.
-  watermarkAlpha: 1, // Opacity of watermark image.
-  watermarkMaxWidthRatio: 0.25, // Maximum allowed width of watermark (percentage of total canvas width).
+  viewAllShow: false, // Show view all
+  viewAllEdit: true, // Can show all can be edit
+  viewAll: 'image/viewAll.png',
 
-  // Path to the watermark image source, or blank for no watermark:
-  // Alternatively, use '<%= asset_data_uri("vox.png") %>' to populate the watermark with base64 data, avoiding Cross-Origin issues.
-  watermarkSrc: (localStorage && localStorage.getItem('meme_watermark')) || '',
-  
-  // Watermark image options: set to empty array to disable watermark picker.
-  // NOTE: only populate the "data" attributes with base64 data when concerned about Cross-Origin requests...
-  // Otherwise, just leave "data" attributes blank and allow images to load from your server.
-  /*watermarkOpts: [
-    {text: 'Vox', value: '', data: ''},
-    {text: 'The Verge', value: '', data: ''}
-  ],*/
-
-  width: 755 // Canvas rendering width.
+  width: 720 // Canvas rendering width.
 };

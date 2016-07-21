@@ -24,6 +24,10 @@ MEME.MemeEditorView = Backbone.View.extend({
       $('#text-shadow').parent().show();
     }
 
+    if (d.viewAllEdit) {
+      $('#view-all').parent().show();
+    }
+
     // Build text alignment options:
     if (d.textAlignOpts && d.textAlignOpts.length) {
       $('#text-align').append(buildOptions(d.textAlignOpts)).show();
@@ -58,7 +62,7 @@ MEME.MemeEditorView = Backbone.View.extend({
   render: function() {
     var d = this.model.toJSON();
     this.$('#headline').val(d.headlineText);
-    this.$('#credit').val(d.creditText);
+    //this.$('#credit').val(d.creditText);
     this.$('#watermark').val(d.watermarkSrc);
     this.$('#image-scale').val(d.imageScale);
     this.$('#font-size').val(d.fontSize);

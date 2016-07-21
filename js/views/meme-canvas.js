@@ -95,11 +95,18 @@ MEME.MemeCanvasView = Backbone.View.extend({
         x = d.width / 2;
         y = d.height - d.height / 1.5;
         maxWidth = d.width - d.width / 3;
-
+      } else if (d.textAlign == 'b-right' ){
+        ctx.textBaseline = 'bottom';
+        ctx.textAlign = 'right';
+        x = d.width - padding;
+        y = d.height - padding;
+      } else if (d.textAlign == 'b-left' ){
+        ctx.textBaseline = 'bottom';
+        ctx.textAlign = 'left';
+        y = d.height - padding;
       } else if (d.textAlign == 'right' ) {
         ctx.textAlign = 'right';
         x = d.width - padding;
-
       } else {
         ctx.textAlign = 'left';
       }
@@ -126,32 +133,36 @@ MEME.MemeCanvasView = Backbone.View.extend({
     }
 
     function renderCredit(ctx) {
-      ctx.textBaseline = 'bottom';
-      ctx.textAlign = 'left';
-      ctx.fillStyle = d.fontColor;
-      ctx.font = 'normal '+ d.creditSize +'pt '+ d.fontFamily;
-      ctx.fillText(d.creditText, padding, d.height - padding);
+      if(d.creditText){
+        ctx.textBaseline = 'bottom';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = d.fontColor;
+        ctx.font = 'normal '+ d.creditSize +'pt '+ d.fontFamily;
+        ctx.fillText(d.creditText, padding, d.height - padding);
+      }
     }
 
     function renderWatermark(ctx) {
-      // Base & transformed height and width:
-      var bw, bh, tw, th;
-      bh = th = m.watermark.height;
-      bw = tw = m.watermark.width;
+      if(m.watermark){
+        // Base & transformed height and width:
+        var bw, bh, tw, th;
+        bh = th = m.watermark.height;
+        bw = tw = m.watermark.width;
 
-      if (bh && bw) {
+        if (bh && bw) {
         // Calculate watermark maximum width:
-        var mw = d.width * d.watermarkMaxWidthRatio;
+          var mw = d.width * d.watermarkMaxWidthRatio;
 
-        // Constrain transformed height based on maximum allowed width:
-        if (mw < bw) {
-          th = bh * (mw / bw);
-          tw = mw;
+          // Constrain transformed height based on maximum allowed width:
+          if (mw < bw) {
+            th = bh * (mw / bw);
+            tw = mw;
+          }
+
+          ctx.globalAlpha = d.watermarkAlpha;
+          ctx.drawImage(m.watermark, 0, 0, bw, bh, d.width-padding-tw, d.height-padding-th, tw, th);
+          ctx.globalAlpha = 1;
         }
-
-        ctx.globalAlpha = d.watermarkAlpha;
-        ctx.drawImage(m.watermark, 0, 0, bw, bh, d.width-padding-tw, d.height-padding-th, tw, th);
-        ctx.globalAlpha = 1;
       }
     }
 

@@ -5,8 +5,8 @@
 MEME.MemeModel = Backbone.Model.extend({
   defaults: {
     backgroundPosition: { x: null, y: null },
-    creditText: 'Source:',
-    creditSize: 12,
+    //creditText: 'Source:',
+    //creditSize: 12,
     downloadName: 'share',
     fontColor: 'white',
     fontFamily: 'Helvetica Neue',
@@ -24,11 +24,13 @@ MEME.MemeModel = Backbone.Model.extend({
     textAlign: 'left',
     textAlignOpts: ['left', 'center', 'right'],
     textShadow: true,
-    textShadowEdit: true,
-    watermarkAlpha: 0.75,
-    watermarkMaxWidthRatio: 0.25,
-    watermarkSrc: '',
-    watermarkOpts: [],
+    viewAllShow: false,
+    viewAllEdit: true,
+    //watermarkAlpha: 0.75,
+    //watermarkMaxWidthRatio: 0.25,
+    //watermarkSrc: '',
+    //watermarkOpts: [],
+    viewAll:'',
     width: 755
   },
 
