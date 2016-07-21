@@ -19,7 +19,7 @@ var MEME_SETTINGS = {
     ],
 
     headlineText: 'Write your own title', // Default headline text.
-    height: 280, // Canvas rendering height.
+    height: 386, // Canvas rendering height.
     imageScale: 1, // Background image scale.
     imageSrc: '', // Default background image path. MUST reside on host domain, or use base64 data.
     overlayAlpha: 0.5, // Opacity of image overlay.
@@ -47,6 +47,7 @@ var MEME_SETTINGS = {
     viewAllEdit: false, // Can show all can be edit
     viewAllSrc: '',
     textColorRGB: '',
-
+    calloutText: 'Upto 80% OFF',
+    calloutColorRGB: '#3cb371',
     width: 720 // Canvas rendering width.
 };

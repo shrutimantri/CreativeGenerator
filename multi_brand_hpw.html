@@ -24,31 +24,18 @@
         <h2><label for="headline">Title</label></h2>
         <textarea id="headline" name="headline" maxlength="20"></textarea>
 
-        <div class="dropzone" id="viewAll">Drop View All Here</div>
-        <div class="checkbox-group view-all">
-            <input id="view-all" name="view_all" type="checkbox">
-            <label for="view-all">Show View All</label>
-        </div>
+        <h2><label for="call_out">Callout Text</label></h2>
+        <input id="call_out" name="call_out" type="text" value="Call out text">
 
         <div class="form-group">
             <div class="col-md-3">
-                <input type="text" id="textColorRGB" class="colorpicker-default form-control" name="textColorRGB"
+                <h2><label for="calloutColorRGB">Callout color</label></h2>
+                <input type="text" id="calloutColorRGB" class="colorpicker-default form-control" name="calloutColorRGB"
                        value="#8fff00"/>
-                <label for="textColorRGB">Write color code</label>
             </div>
         </div>
 
-        <select class="text-align" id="text-align">
-            <option value="" disabled>Select alignment</option>
-        </select>
-
-        <select class="font-size" id="font-size">
-            <option value="" disabled>Select a font size</option>
-        </select>
-
-        <select class="font-family" id="font-family">
-            <option value="" disabled>Select a font</option>
-        </select>
+        <div class="dropzone" id="brand_img">Drop Brand Images Here</div>
 
         <div class="checkbox-group text-shadow">
             <input id="text-shadow" name="shadow" type="checkbox">
@@ -82,6 +69,6 @@
 <script src="js/views/meme-canvas.js"></script>
 <script src="js/views/meme-editor.js"></script>
 <script src="js/helpers/font-monitor.js"></script>
-<script src="js/banner_pmu.js"></script>
+<script src="js/multi_brand_hpw.js"></script>
 </body>
 </html>

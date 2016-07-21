@@ -1,170 +1,248 @@
 /*
-* MemeEditorView
-* Manages form capture, model updates, and selection state of the editor form.
-*/
+ * MemeEditorView
+ * Manages form capture, model updates, and selection state of the editor form.
+ */
 MEME.MemeEditorView = Backbone.View.extend({
 
-  initialize: function() {
-    this.buildForms();
-    this.listenTo(this.model, 'change', this.render);
-    this.render();
-  },
+    initialize: function () {
+        this.buildForms();
+        this.listenTo(this.model, 'change', this.render);
+        this.render();
+    },
 
-  // Builds all form options based on model option arrays:
-  buildForms: function() {
-    var d = this.model.toJSON();
+    // Builds all form options based on model option arrays:
+    buildForms: function () {
+        var d = this.model.toJSON();
 
-    function buildOptions(opts) {
-      return _.reduce(opts, function(memo, opt) {
-        return memo += ['<option value="', opt.hasOwnProperty('value') ? opt.value : opt, '">', opt.hasOwnProperty('text') ? opt.text : opt, '</option>'].join('');
-      }, '');
+        function buildOptions(opts) {
+            return _.reduce(opts, function (memo, opt) {
+                return memo += ['<option value="', opt.hasOwnProperty('value') ? opt.value : opt, '">', opt.hasOwnProperty('text') ? opt.text : opt, '</option>'].join('');
+            }, '');
+        }
+
+        //$('.colorpicker-default').colorpicker({
+        //        format: 'hex'
+        //});
+
+        if (d.textShadowEdit) {
+            $('#text-shadow').parent().show();
+        } else {
+            $('#text-shadow').parent().hide();
+        }
+
+        if (d.viewAllEdit) {
+            $('#view-all').parent().show();
+        } else {
+            $('#view-all').parent().hide();
+        }
+
+        // Build text alignment options:
+        if (d.textAlignOpts && d.textAlignOpts.length) {
+            $('#text-align').append(buildOptions(d.textAlignOpts)).show();
+        }
+
+        // Build font size options:
+        if (d.fontSizeOpts && d.fontSizeOpts.length) {
+            $('#font-size').append(buildOptions(d.fontSizeOpts)).show();
+        }
+
+        // Build font family options:
+        if (d.fontFamilyOpts && d.fontFamilyOpts.length) {
+            $('#font-family').append(buildOptions(d.fontFamilyOpts)).show();
+        }
+
+        // Build watermark options:
+        if (d.watermarkOpts && d.watermarkOpts.length) {
+            $('#watermark').append(buildOptions(d.watermarkOpts)).show();
+        }
+
+        // Build overlay color options:
+        if (d.overlayColorOpts && d.overlayColorOpts.length) {
+            var overlayOpts = _.reduce(d.overlayColorOpts, function (memo, opt) {
+                var color = opt.hasOwnProperty('value') ? opt.value : opt;
+                return memo += '<li><label><input class="m-editor__swatch" style="background-color:' + color + '" type="radio" name="overlay" value="' + color + '"></label></li>';
+            }, '');
+
+            $('#overlay').show().find('ul').append(overlayOpts);
+        }
+    },
+
+    render: function () {
+        var d = this.model.toJSON();
+        this.$('#headline').val(d.headlineText);
+        this.$('#credit').val(d.creditText);
+        this.$('#watermark').val(d.watermarkSrc);
+        this.$('#textColorRGB').val(d.fontColor);
+        this.$('#uspText1').val(d.uspText1);
+        this.$('#uspText2').val(d.uspText2);
+        this.$('#uspText3').val(d.uspText3);
+        this.$('#call_out').val(d.calloutText);
+        this.$('#calloutColorRGB').val(d.calloutColorRGB);
+        this.$('#image-scale').val(d.imageScale);
+        this.$('#font-size').val(d.fontSize);
+        this.$('#font-family').val(d.fontFamily);
+        this.$('#text-align').val(d.textAlign);
+        this.$('#text-shadow').prop('checked', d.textShadow);
+        this.$('#view-all').prop('checked', d.viewAllShow);
+        this.$('#overlay').find('[value="' + d.overlayColor + '"]').prop('checked', true);
+    },
+
+    events: {
+        'input #headline': 'onHeadline',
+        'input #uspText1': 'onUspText1',
+        'input #uspText2': 'onUspText2',
+        'input #uspText3': 'onUspText3',
+        'input #call_out': 'onCalloutText',
+        'input #calloutColorRGB': 'onCalloutColorRGB',
+        'input #credit': 'onCredit',
+        'input #textColorRGB': 'onTextColorRGB',
+        'input #image-scale': 'onScale',
+        'change #font-size': 'onFontSize',
+        'change #font-family': 'onFontFamily',
+        'change #watermark': 'onWatermark',
+        'change #text-align': 'onTextAlign',
+        'change #text-shadow': 'onTextShadow',
+        'change #view-all': 'onViewAll',
+        'change [name="overlay"]': 'onOverlayColor',
+        'dragover #dropzone': 'onZoneOver',
+        'dragleave #dropzone': 'onZoneOut',
+        'drop #dropzone': 'onZoneDrop',
+        'dragover #viewAll': 'onViewAllOver',
+        'dragleave #viewAll': 'onViewAllOut',
+        'drop #viewAll': 'onViewAllDrop',
+        'dragover #brand_img': 'onBrandImageOver',
+        'dragleave #brand_img': 'onBrandImageOut',
+        'drop #brand_img': 'onBrandImageDrop'
+    },
+
+    onCredit: function () {
+        this.model.set('creditText', this.$('#credit').val());
+    },
+
+    onHeadline: function () {
+        this.model.set('headlineText', this.$('#headline').val());
+    },
+
+    onUspText1: function () {
+        this.model.set('uspText1', this.$('#uspText1').val());
+    },
+
+    onUspText2: function () {
+        this.model.set('uspText2', this.$('#uspText2').val());
+    },
+
+    onUspText3: function () {
+        this.model.set('uspText3', this.$('#uspText3').val());
+    },
+
+    onCalloutText: function () {
+        this.model.set('calloutText', this.$('#call_out').val());
+    },
+
+    onCalloutColorRGB: function () {
+        this.model.set('calloutColorRGB', this.$('#calloutColorRGB').val());
+    },
+
+    onTextAlign: function () {
+        this.model.set('textAlign', this.$('#text-align').val());
+    },
+
+    onTextShadow: function () {
+        this.model.set('textShadow', this.$('#text-shadow').prop('checked'));
+    },
+
+    onTextColorRGB: function () {
+        this.model.set('fontColor', this.$('#textColorRGB').val());
+    },
+
+    onViewAll: function () {
+        this.model.set('viewAllShow', this.$('#view-all').prop('checked'));
+    },
+
+    onFontSize: function () {
+        this.model.set('fontSize', this.$('#font-size').val());
+    },
+
+    onFontFamily: function () {
+        this.model.set('fontFamily', this.$('#font-family').val());
+    },
+
+    onWatermark: function () {
+        this.model.set('watermarkSrc', this.$('#watermark').val());
+        if (localStorage) localStorage.setItem('meme_watermark', this.$('#watermark').val());
+    },
+
+    onScale: function () {
+        this.model.set('imageScale', this.$('#image-scale').val());
+    },
+
+    onOverlayColor: function (evt) {
+        this.model.set('overlayColor', this.$(evt.target).val());
+    },
+
+    getDataTransfer: function (evt) {
+        evt.stopPropagation();
+        evt.preventDefault();
+        return evt.originalEvent.dataTransfer || null;
+    },
+
+    onZoneOver: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            dataTransfer.dropEffect = 'copy';
+            this.$('#dropzone').addClass('pulse');
+        }
+    },
+
+    onZoneOut: function (evt) {
+        this.$('#dropzone').removeClass('pulse');
+    },
+
+    onZoneDrop: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            this.model.loadBackground(dataTransfer.files[0]);
+            this.$('#dropzone').removeClass('pulse');
+        }
+    },
+    onViewAllOver: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            dataTransfer.dropEffect = 'copy';
+            this.$('#viewAll').addClass('pulse');
+        }
+    },
+
+    onViewAllOut: function (evt) {
+        this.$('#viewAll').removeClass('pulse');
+    },
+
+    onViewAllDrop: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            this.model.loadViewAll(dataTransfer.files[0]);
+            this.$('#viewAll').removeClass('pulse');
+            $('#view-all').parent().show();
+        }
+    },
+
+    onBrandImageOver: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            dataTransfer.dropEffect = 'copy';
+            this.$('#brand_img').addClass('pulse');
+        }
+    },
+
+    onBrandImageOut: function (evt) {
+        this.$('#brand_img').removeClass('pulse');
+    },
+
+    onBrandImageDrop: function (evt) {
+        var dataTransfer = this.getDataTransfer(evt);
+        if (dataTransfer) {
+            this.model.loadBrandImages(dataTransfer.files);
+            this.$('#brand_img').removeClass('pulse');
+        }
     }
-
-    if (d.textShadowEdit) {
-      $('#text-shadow').parent().show();
-    }
-
-    if (d.viewAllEdit) {
-      $('#view-all').parent().show();
-    }
-
-    // Build text alignment options:
-    if (d.textAlignOpts && d.textAlignOpts.length) {
-      $('#text-align').append(buildOptions(d.textAlignOpts)).show();
-    }
-
-    // Build font size options:
-    if (d.fontSizeOpts && d.fontSizeOpts.length) {
-      $('#font-size').append(buildOptions(d.fontSizeOpts)).show();
-    }
-
-    // Build font family options:
-    if (d.fontFamilyOpts && d.fontFamilyOpts.length) {
-      $('#font-family').append(buildOptions(d.fontFamilyOpts)).show();
-    }
-
-    // Build watermark options:
-    if (d.watermarkOpts && d.watermarkOpts.length) {
-      $('#watermark').append(buildOptions(d.watermarkOpts)).show();
-    }
-
-    // Build overlay color options:
-    if (d.overlayColorOpts && d.overlayColorOpts.length) {
-      var overlayOpts = _.reduce(d.overlayColorOpts, function(memo, opt) {
-        var color = opt.hasOwnProperty('value') ? opt.value : opt;
-        return memo += '<li><label><input class="m-editor__swatch" style="background-color:'+color+'" type="radio" name="overlay" value="'+color+'"></label></li>';
-      }, '');
-
-      $('#overlay').show().find('ul').append(overlayOpts);
-    }
-  },
-
-  render: function() {
-    var d = this.model.toJSON();
-    this.$('#headline').val(d.headlineText);
-    //this.$('#credit').val(d.creditText);
-    this.$('#watermark').val(d.watermarkSrc);
-    this.$('#uspText1').val(d.uspText1);
-    this.$('#uspText2').val(d.uspText2);
-    this.$('#uspText3').val(d.uspText3);
-    this.$('#image-scale').val(d.imageScale);
-    this.$('#font-size').val(d.fontSize);
-    this.$('#font-family').val(d.fontFamily);
-    this.$('#text-align').val(d.textAlign);
-    this.$('#text-shadow').prop('checked', d.textShadow);
-    this.$('#overlay').find('[value="'+d.overlayColor+'"]').prop('checked', true);
-  },
-
-  events: {
-    'input #headline': 'onHeadline',
-    'input #uspText1': 'onUspText1',
-    'input #uspText2': 'onUspText2',
-    'input #uspText3': 'onUspText3',
-    'input #credit': 'onCredit',
-    'input #image-scale': 'onScale',
-    'change #font-size': 'onFontSize',
-    'change #font-family': 'onFontFamily',
-    'change #watermark': 'onWatermark',
-    'change #text-align': 'onTextAlign',
-    'change #text-shadow': 'onTextShadow',
-    'change [name="overlay"]': 'onOverlayColor',
-    'dragover #dropzone': 'onZoneOver',
-    'dragleave #dropzone': 'onZoneOut',
-    'drop #dropzone': 'onZoneDrop'
-  },
-
-  onCredit: function() {
-    this.model.set('creditText', this.$('#credit').val());
-  },
-
-  onHeadline: function() {
-    this.model.set('headlineText', this.$('#headline').val());
-  },
-
-  onUspText1: function() {
-    this.model.set('uspText1', this.$('#uspText1').val());
-  },
-
-  onUspText2: function() {
-    this.model.set('uspText2', this.$('#uspText2').val());
-  },
-
-  onUspText3: function() {
-    this.model.set('uspText3', this.$('#uspText3').val());
-  },
-
-  onTextAlign: function() {
-    this.model.set('textAlign', this.$('#text-align').val());
-  },
-
-  onTextShadow: function() {
-    this.model.set('textShadow', this.$('#text-shadow').prop('checked'));
-  },
-
-  onFontSize: function() {
-    this.model.set('fontSize', this.$('#font-size').val());
-  },
-
-  onFontFamily: function() {
-    this.model.set('fontFamily', this.$('#font-family').val());
-  },
-
-  onWatermark: function() {
-    this.model.set('watermarkSrc', this.$('#watermark').val());
-    if (localStorage) localStorage.setItem('meme_watermark', this.$('#watermark').val());
-  },
-
-  onScale: function() {
-    this.model.set('imageScale', this.$('#image-scale').val());
-  },
-
-  onOverlayColor: function(evt) {
-    this.model.set('overlayColor', this.$(evt.target).val());
-  },
-
-  getDataTransfer: function(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    return evt.originalEvent.dataTransfer || null;
-  },
-
-  onZoneOver: function(evt) {
-    var dataTransfer = this.getDataTransfer(evt);
-    if (dataTransfer) {
-      dataTransfer.dropEffect = 'copy';
-      this.$('#dropzone').addClass('pulse');
-    }
-  },
-
-  onZoneOut: function(evt) {
-    this.$('#dropzone').removeClass('pulse');
-  },
-
-  onZoneDrop: function(evt) {
-    var dataTransfer = this.getDataTransfer(evt);
-    if (dataTransfer) {
-      this.model.loadBackground(dataTransfer.files[0]);
-      this.$('#dropzone').removeClass('pulse');
-    }
-  }
 });
