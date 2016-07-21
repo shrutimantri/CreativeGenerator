@@ -29,12 +29,24 @@ MEME.MemeModel = Backbone.Model.extend({
         watermarkAlpha: 0.75,
         watermarkMaxWidthRatio: 0.25,
         viewAllMaxWidthRatio: 0.15,
-        //watermarkSrc: '',
-        //watermarkOpts: [],
+        watermarkSrc: '',
+        watermarkOpts: [],
         viewAllSrc: '',
         textColorRGB: '',
         calloutText: '',
         calloutColorRGB: '',
+        brandImage1Scale: 1,
+        brandImage2Scale: 1,
+        brandImage3Scale: 1,
+        brandImage4Scale: 1,
+        brandImage1X: 0,
+        brandImage1Y: 0,
+        brandImage2X: 0,
+        brandImage2Y: 0,
+        brandImage3X: 0,
+        brandImage3Y: 0,
+        brandImage4X: 0,
+        brandImage4Y: 0,
         width: 755
     },
 
@@ -44,11 +56,14 @@ MEME.MemeModel = Backbone.Model.extend({
         this.background = new Image();
         this.watermark = new Image();
         this.viewAll = new Image();
-        this.brandImages = new Array();
+        this.brandImagesIndex = 0;
+        this.brandImages = [new Image(), new Image(), new Image(), new Image()];
         //this.viewAll.setAttribute('crossOrigin', 'anonymous');
 
         // Set image sources to trigger "change" whenever they reload:
-        this.background.onload = this.watermark.onload = this.viewAll.onload = _.bind(function () {
+        this.background.onload = this.watermark.onload = this.viewAll.onload =
+            this.brandImages[0].onload = this.brandImages[1].onload = this.brandImages[2].onload = this.brandImages[3].onload =
+                _.bind(function () {
             this.trigger('change');
         }, this);
 
@@ -96,16 +111,15 @@ MEME.MemeModel = Backbone.Model.extend({
     // Loads a file reference into the brand images image data source:
     loadBrandImages: function (files) {
         for(var i = 0; i < files.length; i++) {
-            var image = new Image();
-            this.loadFileForImage(files[i], image);
-            this.brandImages.concat(image);
+            this.loadFileForImage(files[i], this.brandImages[this.brandImagesIndex]);
+            this.brandImagesIndex++;
         }
     },
 
     // Loads a file reference into the watermark image data source:
-    loadWatermark: function (file) {
-        this.loadFileForImage(file, this.watermark);
-    },
+   // loadWatermark: function (file) {
+   //     this.loadFileForImage(file, this.watermark);
+    //},
 
     // When setting a new watermark "src",
     // this method looks through watermark options and finds the matching option.

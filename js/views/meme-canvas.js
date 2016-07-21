@@ -170,9 +170,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
                         vy = vy + Math.round(d.fontSize * 1.8);
                     if (ctx.textAlign == 'right')
                         vx = vx - tw;
-                    ctx.globalAlpha = d.watermarkAlpha;
                     ctx.drawImage(m.viewAll, 0, 0, bw, bh, vx, vy, tw, th);
-                    ctx.globalAlpha = 1;
                 }
 
                 if(d.calloutText){
@@ -217,26 +215,79 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 }
             }
         }
+
+        function renderBrandImage(ctx) {
+            // Base height and width:
+            var bh = m.background.height;
+            var bw = m.background.width;
+
+            if (bh && bw) {
+                // Transformed height and width:
+                // Set the base position if null
+                var th = bh * d.imageScale;
+                var tw = bw * d.imageScale;
+                var cx = d.backgroundPosition.x || d.width / 2;
+                var cy = d.backgroundPosition.y || d.height / 2;
+
+                ctx.drawImage(m.background, 0, 0, bw, bh, cx - (tw / 2), cy - (th / 2), tw, th);
+            }
+        }
+
+        function getImageScale(index) {
+            switch (index){
+                case 0: return d.brandImage1Scale;
+                case 1: return d.brandImage2Scale;
+                case 2: return d.brandImage3Scale;
+                case 3: return d.brandImage4Scale;
+            }
+        }
+
+        function getBrandImageX(index) {
+            switch (index){
+                case 0: return d.brandImage1X;
+                case 1: return d.brandImage2X;
+                case 2: return d.brandImage3X;
+                case 3: return d.brandImage4X;
+            }
+        }
+
+        function getBrandImageY(index) {
+            switch (index){
+                case 0: return d.brandImage1Y;
+                case 1: return d.brandImage2Y;
+                case 2: return d.brandImage3Y;
+                case 3: return d.brandImage4Y;
+            }
+        }
         
         function renderBrandImages(ctx) {
             if(m.brandImages && m.brandImages.length){
-                ctx.textBaseline = 'bottom';
                 var mw = Math.round(d.width * 0.25);
                 var vx = 0, vy = 0, bw, bh, tw, th;
                 for(var i=0;i<m.brandImages.length;i++){
                     bh = th = m.brandImages[i].height;
                     bw = tw = m.brandImages[i].width;
                     if (bh && bw) {
+                        var imageScale = getImageScale(i);
+                        if(imageScale){
+                            th = bh * imageScale;
+                            tw = bw * imageScale;
+                        }
                         // Constrain transformed height based on maximum allowed width:
-                        if (mw < bw) {
+                        else if (mw < bw) {
                             th = bh * (mw / bw);
                             tw = mw;
                         }
-                        ctx.globalAlpha = d.watermarkAlpha;
-                        ctx.drawImage(m.brandImages[i], 0, 0, bw, bh, vx, th, tw, th);
-                        ctx.globalAlpha = 1;
+                        vy = d.height - th;
+                        var x = getBrandImageX(i);
+                        var y = getBrandImageY(i);
+                        if(x && y){
+                            vx = x;
+                            vy = y;
+                        }
+                        ctx.drawImage(m.brandImages[i], 0, 0, bw, bh, vx, vy, tw, th);
                     }
-                    vx += maxWidth;
+                    vx += mw;
                 }
             }
         }

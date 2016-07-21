@@ -49,5 +49,17 @@ var MEME_SETTINGS = {
     textColorRGB: '',
     calloutText: 'Upto 80% OFF',
     calloutColorRGB: '#3cb371',
+    brandImage1Scale: 1,
+    brandImage2Scale: 1,
+    brandImage3Scale: 1,
+    brandImage4Scale: 1,
+    brandImage1X: 0,
+    brandImage1Y: 0,
+    brandImage2X: 0,
+    brandImage2Y: 0,
+    brandImage3X: 0,
+    brandImage3Y: 0,
+    brandImage4X: 0,
+    brandImage4Y: 0,
     width: 720 // Canvas rendering width.
 };

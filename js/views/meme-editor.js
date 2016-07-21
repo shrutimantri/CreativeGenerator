@@ -79,6 +79,18 @@ MEME.MemeEditorView = Backbone.View.extend({
         this.$('#call_out').val(d.calloutText);
         this.$('#calloutColorRGB').val(d.calloutColorRGB);
         this.$('#image-scale').val(d.imageScale);
+        this.$('#brand-image-scale-1').val(d.brandImage1Scale);
+        this.$('#brand-image-scale-2').val(d.brandImage2Scale);
+        this.$('#brand-image-scale-3').val(d.brandImage3Scale);
+        this.$('#brand-image-scale-4').val(d.brandImage4Scale);
+        this.$('#brand-image-1-x').val(d.brandImage1X);
+        this.$('#brand-image-1-y').val(d.brandImage1Y);
+        this.$('#brand-image-2-x').val(d.brandImage2X);
+        this.$('#brand-image-2-y').val(d.brandImage2Y);
+        this.$('#brand-image-3-x').val(d.brandImage3X);
+        this.$('#brand-image-3-y').val(d.brandImage3Y);
+        this.$('#brand-image-4-x').val(d.brandImage4X);
+        this.$('#brand-image-4-y').val(d.brandImage4Y);
         this.$('#font-size').val(d.fontSize);
         this.$('#font-family').val(d.fontFamily);
         this.$('#text-align').val(d.textAlign);
@@ -97,6 +109,18 @@ MEME.MemeEditorView = Backbone.View.extend({
         'input #credit': 'onCredit',
         'input #textColorRGB': 'onTextColorRGB',
         'input #image-scale': 'onScale',
+        'input #brand-image-scale-1': 'onBrandScale1',
+        'input #brand-image-scale-2': 'onBrandScale2',
+        'input #brand-image-scale-3': 'onBrandScale3',
+        'input #brand-image-scale-4': 'onBrandScale4',
+        'input #brand-image-1-x': 'onBrandImageX1',
+        'input #brand-image-2-x': 'onBrandImageX2',
+        'input #brand-image-3-x': 'onBrandImageX3',
+        'input #brand-image-4-x': 'onBrandImageX4',
+        'input #brand-image-1-y': 'onBrandImageY1',
+        'input #brand-image-2-y': 'onBrandImageY2',
+        'input #brand-image-3-y': 'onBrandImageY3',
+        'input #brand-image-4-y': 'onBrandImageY4',
         'change #font-size': 'onFontSize',
         'change #font-family': 'onFontFamily',
         'change #watermark': 'onWatermark',
@@ -172,8 +196,56 @@ MEME.MemeEditorView = Backbone.View.extend({
         if (localStorage) localStorage.setItem('meme_watermark', this.$('#watermark').val());
     },
 
+    onBrandImageX1: function () {
+        this.model.set('brandImage1X', this.$('#brand-image-1-x').val());
+    },
+
+    onBrandImageY1: function () {
+        this.model.set('brandImage1Y', this.$('#brand-image-1-y').val());
+    },
+
+    onBrandImageX2: function () {
+        this.model.set('brandImage2X', this.$('#brand-image-2-x').val());
+    },
+
+    onBrandImageY2: function () {
+        this.model.set('brandImage2Y', this.$('#brand-image-2-y').val());
+    },
+
+    onBrandImageX3: function () {
+        this.model.set('brandImage3X', this.$('#brand-image-3-x').val());
+    },
+
+    onBrandImageY3: function () {
+        this.model.set('brandImage3Y', this.$('#brand-image-3-y').val());
+    },
+
+    onBrandImageX4: function () {
+        this.model.set('brandImage4X', this.$('#brand-image-4-x').val());
+    },
+
+    onBrandImageY4: function () {
+        this.model.set('brandImage4Y', this.$('#brand-image-4-y').val());
+    },
+
     onScale: function () {
         this.model.set('imageScale', this.$('#image-scale').val());
+    },
+
+    onBrandScale1: function () {
+        this.model.set('brandImage1Scale', this.$('#brand-image-scale-1').val());
+    },
+
+    onBrandScale2: function () {
+        this.model.set('brandImage2Scale', this.$('#brand-image-scale-2').val());
+    },
+
+    onBrandScale3: function () {
+        this.model.set('brandImage3Scale', this.$('#brand-image-scale-3').val());
+    },
+
+    onBrandScale4: function () {
+        this.model.set('brandImage4Scale', this.$('#brand-image-scale-4').val());
     },
 
     onOverlayColor: function (evt) {
