@@ -71,6 +71,7 @@ MEME.MemeEditorView = Backbone.View.extend({
         var d = this.model.toJSON();
         this.$('#headline').val(d.headlineText);
         this.$('#credit').val(d.creditText);
+        this.$('#cta').val(d.cta);
         this.$('#watermark').val(d.watermarkSrc);
         this.$('#textColorRGB').val(d.fontColor);
         this.$('#uspText1').val(d.uspText1);
@@ -107,6 +108,7 @@ MEME.MemeEditorView = Backbone.View.extend({
         'input #call_out': 'onCalloutText',
         'input #calloutColorRGB': 'onCalloutColorRGB',
         'input #credit': 'onCredit',
+        'input #cta': 'onCTA',
         'input #textColorRGB': 'onTextColorRGB',
         'input #image-scale': 'onScale',
         'input #brand-image-scale-1': 'onBrandScale1',
@@ -141,6 +143,10 @@ MEME.MemeEditorView = Backbone.View.extend({
 
     onCredit: function () {
         this.model.set('creditText', this.$('#credit').val());
+    },
+
+    onCTA: function () {
+        this.model.set('cta', this.$('#cta').val());
     },
 
     onHeadline: function () {
