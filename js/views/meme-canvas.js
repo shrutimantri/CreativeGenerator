@@ -202,6 +202,18 @@ MEME.MemeCanvasView = Backbone.View.extend({
             }
         }
 
+        function renderCTA(ctx) {
+            if (d.cta) {
+                ctx.fillStyle = d.textColorRGB;
+                ctx.strokeStyle = d.textColorRGB
+
+                ctx.rect(80,400,200,70);
+                ctx.font = "20pt sans-serif";
+                ctx.fillText(d.cta, 95, 420);
+                ctx.stroke();
+            }
+        }
+
         function renderUspText(ctx) {
             if (d.uspText1 || d.uspText2 || d.uspText3) {
                 ctx.textBaseline = 'bottom';
@@ -264,7 +276,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 case 3: return d.brandImage4Y;
             }
         }
-        
+
         function renderBrandImages(ctx) {
             if(m.brandImages && m.brandImages.length){
                 var mw = Math.round(d.width * 0.25);
@@ -328,6 +340,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
         renderUspText(ctx);
         renderWatermark(ctx);
         renderBrandImages(ctx);
+        renderCTA(ctx);
 
         var data = this.canvas.toDataURL(); //.replace('image/png', 'image/octet-stream');
         this.$('#meme-download').attr({
