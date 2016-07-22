@@ -108,7 +108,10 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 }
 
                 ctx.font = d.fontSize + 'pt ' + d.fontFamily;
-                if (d.textColorRGB) ctx.fillStyle = d.textColorRGB;
+                if (d.textColorRGB) {
+                    ctx.fillStyle = d.textColorRGB;
+                    ctx.strokeStyle = d.textColorRGB;
+                }
                 else ctx.fillStyle = d.textColorRGB;
                 ctx.textBaseline = 'top';
 
@@ -394,16 +397,16 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 update(evt);
             });
     },
-    
+
   onDownload: function(evt) {
       var d = this.model.toJSON();
       var formData = $('#meme-editor-view').serializeArray();
       var result = {};
-      
+
       for (var i = 0; i < formData.length; ++i) {
           result[formData[i].name] = formData[i].value;
       }
-      
+
       result.backgroundPosition = d.backgroundPosition;
       result.background = this.model.background.src;
       localStorage.setItem(d.downloadName, JSON.stringify(result));
