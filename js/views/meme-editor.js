@@ -106,7 +106,7 @@ MEME.MemeEditorView = Backbone.View.extend({
         'input #uspText1': 'onUspText1',
         'input #uspText2': 'onUspText2',
         'input #uspText3': 'onUspText3',
-        'input #call_out': 'onCalloutText',
+        'input #callout': 'onCalloutText',
         'input #calloutColorRGB': 'onCalloutColorRGB',
         'input #credit': 'onCredit',
         'input #cta': 'onCTA',

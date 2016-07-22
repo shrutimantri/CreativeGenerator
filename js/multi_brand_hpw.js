@@ -47,7 +47,7 @@ var MEME_SETTINGS = {
     viewAllEdit: false, // Can show all can be edit
     viewAllSrc: '',
     textColorRGB: '',
-    calloutText: 'Upto 80% OFF',
+    callout: 'Upto 80% OFF',
     calloutColorRGB: '#3cb371',
     brandImage1Scale: 1,
     brandImage2Scale: 1,

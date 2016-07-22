@@ -80,7 +80,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
         function renderHeadline(ctx) {
             if (d.headline) {
                 var maxWidth = Math.round(d.width * 0.75);
-                if(d.calloutText){
+                if(d.callout){
                     maxWidth = Math.round(d.width * 0.4);
                 }
                 var x = padding;
@@ -178,14 +178,14 @@ MEME.MemeCanvasView = Backbone.View.extend({
                     ctx.drawImage(m.viewAll, 0, 0, bw, bh, vx, vy, tw, th);
                 }
 
-                if(d.calloutText){
+                if(d.callout){
                     y += Math.round(d.fontSize * 1.8);
                     ctx.font = 'normal 12pt ' + d.fontFamily;
                     ctx.fillStyle = d.calloutColorRGB;
-                    var width = ctx.measureText(d.calloutText).width;
-                    ctx.roundRect(x,y,width+10,parseInt(ctx.font, 10)+12,{upperLeft:5,upperRight:5, lowerRight: 5, lowerLeft: 5},true,false)
-                    ctx.fillStyle = d.textColorRGB;
-                    ctx.fillText(d.calloutText, x+5, y+5);
+                    var width = ctx.measureText(d.callout).width;
+                    ctx.roundRect(x,y,width+10,parseInt(ctx.font, 10)+12,{upperLeft:5,upperRight:5, lowerRight: 5, lowerLeft: 5},true,false);
+                    ctx.fillStyle = ctx.strokeStyle;
+                    ctx.fillText(d.callout, x+5, y+5);
                 }
                 ctx.shadowColor = 'transparent';
             }

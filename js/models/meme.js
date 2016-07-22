@@ -33,7 +33,7 @@ MEME.MemeModel = Backbone.Model.extend({
         watermarkOpts: [],
         viewAllSrc: '',
         textColorRGB: '',
-        calloutText: '',
+        callout: '',
         calloutColorRGB: '',
         brandImage1Scale: 1,
         brandImage2Scale: 1,
