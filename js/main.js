@@ -30,3 +30,9 @@ MEME = {
 MEME.$(function() {
   MEME.init();
 });
+
+String.prototype.toCamelCase = function() {
+  return this.replace(/-([a-z])/g, function (m, w) {
+    return w.toUpperCase();
+  });
+}

@@ -5,6 +5,11 @@
 MEME.MemeCanvasView = Backbone.View.extend({
 
     initialize: function () {
+        $('#meme-editor-view :input').each(function(){
+           if (!$(this).attr('name')) {
+             $(this).attr('name', $(this).attr('id'));
+           }
+        });
         var canvas = document.createElement('canvas');
         var $container = MEME.$('#meme-canvas');
 
@@ -73,7 +78,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
         }
 
         function renderHeadline(ctx) {
-            if (d.headlineText) {
+            if (d.headline) {
                 var maxWidth = Math.round(d.width * 0.75);
                 if(d.calloutText){
                     maxWidth = Math.round(d.width * 0.4);
@@ -103,8 +108,8 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 }
 
                 ctx.font = d.fontSize + 'pt ' + d.fontFamily;
-                if (d.textColorRGB) ctx.strokeStyle = d.textColorRGB;
-                else ctx.fillStyle = d.fontColor;
+                if (d.textColorRGB) ctx.fillStyle = d.textColorRGB;
+                else ctx.fillStyle = d.textColorRGB;
                 ctx.textBaseline = 'top';
 
                 // Text shadow:
@@ -146,7 +151,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
                     ctx.textAlign = 'left';
                 }
 
-                var words = d.headlineText.split(' ');
+                var words = d.headline.split(' ');
                 var line = '';
 
                 for (var n = 0; n < words.length; n++) {
@@ -179,7 +184,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
                     ctx.fillStyle = d.calloutColorRGB;
                     var width = ctx.measureText(d.calloutText).width;
                     ctx.roundRect(x,y,width+10,parseInt(ctx.font, 10)+12,{upperLeft:5,upperRight:5, lowerRight: 5, lowerLeft: 5},true,false)
-                    ctx.fillStyle = d.fontColor;
+                    ctx.fillStyle = d.textColorRGB;
                     ctx.fillText(d.calloutText, x+5, y+5);
                 }
                 ctx.shadowColor = 'transparent';
@@ -190,8 +195,8 @@ MEME.MemeCanvasView = Backbone.View.extend({
             if (d.creditText) {
                 ctx.textBaseline = 'bottom';
                 ctx.textAlign = 'left';
-                if (d.textColorRGB) ctx.strokeStyle = d.textColorRGB;
-                else ctx.fillStyle = d.fontColor;
+                if (d.textColorRGB) ctx.fillStyle = d.textColorRGB;
+                else ctx.fillStyle = d.textColorRGB;
                 ctx.font = 'normal ' + d.creditSize + 'pt ' + d.fontFamily;
                 ctx.fillText(d.creditText, padding, d.height - padding);
             }
@@ -201,7 +206,7 @@ MEME.MemeCanvasView = Backbone.View.extend({
             if (d.uspText1 || d.uspText2 || d.uspText3) {
                 ctx.textBaseline = 'bottom';
                 ctx.textAlign = 'left';
-                ctx.fillStyle = d.fontColor;
+                ctx.fillStyle = d.textColorRGB;
                 ctx.font = 'normal ' + d.creditSize + 'pt ' + d.fontFamily;
                 if (d.textAlign == 'usp_top') {
                     ctx.fillText(d.uspText1, padding, padding * 4);
@@ -337,7 +342,8 @@ MEME.MemeCanvasView = Backbone.View.extend({
     ,
 
     events: {
-        'mousedown canvas': 'onDrag'
+        'mousedown canvas': 'onDrag',
+        'click #meme-download': 'onDownload'
     }
     ,
 
@@ -374,5 +380,19 @@ MEME.MemeCanvasView = Backbone.View.extend({
                 $doc.off('mouseup.drag mousemove.drag');
                 update(evt);
             });
-    }
+    },
+    
+  onDownload: function(evt) {
+      var d = this.model.toJSON();
+      var formData = $('#meme-editor-view').serializeArray();
+      var result = {};
+      
+      for (var i = 0; i < formData.length; ++i) {
+          result[formData[i].name] = formData[i].value;
+      }
+      
+      result.backgroundPosition = d.backgroundPosition;
+      result.background = this.model.background.src;
+      localStorage.setItem(d.downloadName, JSON.stringify(result));
+  }
 });

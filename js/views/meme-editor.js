@@ -8,6 +8,7 @@ MEME.MemeEditorView = Backbone.View.extend({
         this.buildForms();
         this.listenTo(this.model, 'change', this.render);
         this.render();
+        this.deserializeFormData();
     },
 
     // Builds all form options based on model option arrays:
@@ -69,14 +70,14 @@ MEME.MemeEditorView = Backbone.View.extend({
 
     render: function () {
         var d = this.model.toJSON();
-        this.$('#headline').val(d.headlineText);
+        this.$('#headline').val(d.headline);
         this.$('#credit').val(d.creditText);
         this.$('#watermark').val(d.watermarkSrc);
-        this.$('#textColorRGB').val(d.fontColor);
+        this.$('#textColorRGB').val(d.textColorRGB);
         this.$('#uspText1').val(d.uspText1);
         this.$('#uspText2').val(d.uspText2);
         this.$('#uspText3').val(d.uspText3);
-        this.$('#call_out').val(d.calloutText);
+        this.$('#callout').val(d.callout);
         this.$('#calloutColorRGB').val(d.calloutColorRGB);
         this.$('#image-scale').val(d.imageScale);
         this.$('#brand-image-scale-1').val(d.brandImage1Scale);
@@ -144,7 +145,7 @@ MEME.MemeEditorView = Backbone.View.extend({
     },
 
     onHeadline: function () {
-        this.model.set('headlineText', this.$('#headline').val());
+        this.model.set('headline', this.$('#headline').val());
     },
 
     onUspText1: function () {
@@ -160,7 +161,7 @@ MEME.MemeEditorView = Backbone.View.extend({
     },
 
     onCalloutText: function () {
-        this.model.set('calloutText', this.$('#call_out').val());
+        this.model.set('callout', this.$('#callout').val());
     },
 
     onCalloutColorRGB: function () {
@@ -176,7 +177,7 @@ MEME.MemeEditorView = Backbone.View.extend({
     },
 
     onTextColorRGB: function () {
-        this.model.set('fontColor', this.$('#textColorRGB').val());
+        this.model.set('textColorRGB', this.$('#textColorRGB').val());
     },
 
     onViewAll: function () {
@@ -316,5 +317,57 @@ MEME.MemeEditorView = Backbone.View.extend({
             this.model.loadBrandImages(dataTransfer.files);
             this.$('#brand_img').removeClass('pulse');
         }
-    }
+    },
+
+  deserializeFormData: function() {
+//      debugger;
+      
+      var d = this.model;
+    var serializedString = localStorage.getItem(d.toJSON().downloadName);
+    
+    if (!serializedString) 
+      return;
+      
+      try {
+          var json = JSON.parse(serializedString);
+          
+          Object.keys(json).map(function(key) {
+            var name = key;
+            var value = json[name];
+
+            if (name === 'backgroundPosition') {
+                d.set(json, value);
+            }
+              
+            if (name === 'background') {
+                d.background.src = value;
+            }
+
+            d.set(name.toCamelCase(), value);
+        });
+      } catch(e) {
+          console.error('Invalid json: ', e);
+      }
+      
+//    console.log(serializedString);
+//    serializedString = serializedString.replace(/\+/g, '%20');
+//    var formFieldArray = serializedString.split("&");
+//    
+//    $.each(formFieldArray, function(i, pair){
+//      var nameValue = pair.split("=");
+//      var name = decodeURIComponent(nameValue[0]);
+//      var value = decodeURIComponent(nameValue[1]);
+//      
+//      if (name == 'backgroundPosition') {
+//        d.set(name, JSON.parse(value));
+//      }
+//        
+//        if (name === 'background') {
+//            d.background.src = localStorage.getItem('abc');
+//        }
+//        
+//      d.set(name.toCamelCase(), value);
+//      
+//    });
+  }
 });

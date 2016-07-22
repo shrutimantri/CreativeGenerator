@@ -18,7 +18,7 @@ var MEME_SETTINGS = {
     {text: 'Large text', value: 36}
   ],
 
-  headlineText: 'Write your own title', // Default headline text.
+  headline: 'Write your own title', // Default headline text.
   height: 600, // Canvas rendering height.
   imageScale: 1, // Background image scale.
   imageSrc: '', // Default background image path. MUST reside on host domain, or use base64 data.
