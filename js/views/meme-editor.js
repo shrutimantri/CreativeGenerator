@@ -8,7 +8,7 @@ MEME.MemeEditorView = Backbone.View.extend({
         this.buildForms();
         this.listenTo(this.model, 'change', this.render);
         this.render();
-        this.deserializeFormData();
+        //this.deserializeFormData();
     },
 
     // Builds all form options based on model option arrays:
@@ -139,7 +139,8 @@ MEME.MemeEditorView = Backbone.View.extend({
         'drop #viewAll': 'onViewAllDrop',
         'dragover #brand_img': 'onBrandImageOver',
         'dragleave #brand_img': 'onBrandImageOut',
-        'drop #brand_img': 'onBrandImageDrop'
+        'drop #brand_img': 'onBrandImageDrop',
+        'click #load-old-banner': 'deserializeFormData'
     },
 
     onCredit: function () {
@@ -326,9 +327,7 @@ MEME.MemeEditorView = Backbone.View.extend({
     },
 
   deserializeFormData: function() {
-//      debugger;
-      
-      var d = this.model;
+    var d = this.model;
     var serializedString = localStorage.getItem(d.toJSON().downloadName);
     
     if (!serializedString) 
@@ -354,26 +353,6 @@ MEME.MemeEditorView = Backbone.View.extend({
       } catch(e) {
           console.error('Invalid json: ', e);
       }
-      
-//    console.log(serializedString);
-//    serializedString = serializedString.replace(/\+/g, '%20');
-//    var formFieldArray = serializedString.split("&");
-//    
-//    $.each(formFieldArray, function(i, pair){
-//      var nameValue = pair.split("=");
-//      var name = decodeURIComponent(nameValue[0]);
-//      var value = decodeURIComponent(nameValue[1]);
-//      
-//      if (name == 'backgroundPosition') {
-//        d.set(name, JSON.parse(value));
-//      }
-//        
-//        if (name === 'background') {
-//            d.background.src = localStorage.getItem('abc');
-//        }
-//        
-//      d.set(name.toCamelCase(), value);
-//      
-//    });
+      this.render();
   }
 });
